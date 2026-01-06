@@ -51,10 +51,14 @@ def get_apis_for_project(project_branch: str):
 
 
 @frappe.whitelist(allow_guest=True)
-def get_file_content_from_path(project_branch: str, file_path: str,block_start: int, block_end: int,viewer_type: str):
+def get_file_content_from_path(project_branch: str, file_path: str, block_start, block_end, viewer_type: str):
     '''
         Gets the Project Branch document with the organization and app name
     '''
+    # Convert to integers - parameters come as strings from HTTP request
+    block_start = int(block_start) if block_start else 0
+    block_end = int(block_end) if block_end else None
+
     if viewer_type == "project":
         branch_doc = frappe.get_doc("Commit Project Branch", project_branch)
 
