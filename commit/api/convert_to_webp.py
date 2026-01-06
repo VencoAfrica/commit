@@ -1,5 +1,6 @@
+from typing import Optional
 import frappe
-from frappe.core.doctype.file.utils import delete_file
+from frappe.core.doctype.file.file import delete_file
 from urllib.parse import unquote
 import requests
 from PIL import Image
@@ -8,7 +9,7 @@ from frappe.model.document import Document
 import os
 
 @frappe.whitelist()
-def convert_to_webp(image_url: str | None = None, file_doc: Document | None = None) -> str:
+def convert_to_webp(image_url: Optional[str] = None, file_doc: Optional[Document] = None) -> str:
 	"""BETA: Convert image to webp format"""
 
 	CONVERTIBLE_IMAGE_EXTENSIONS = ["png", "jpeg", "jpg"]

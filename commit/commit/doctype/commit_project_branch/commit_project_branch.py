@@ -21,12 +21,10 @@ class CommitProjectBranch(Document):
         self.create_branch_folder()
     
     def after_insert(self):
+        frappe.db.commit()  # Commit transaction before enqueueing (v13 compatibility)
         frappe.enqueue(
             method = background_fetch_process,
             is_async = True,
-            job_name="Fetch Project Branch",
-            enqueue_after_commit = True,
-            at_front = True,
             project_branch = self.name
         )
 
@@ -37,13 +35,10 @@ class CommitProjectBranch(Document):
         else:
             apis = self.whitelisted_apis.get("apis", []) if self.whitelisted_apis else []
         if old_doc and old_doc.whitelisted_apis != self.whitelisted_apis and len(apis) > 0:
+            frappe.db.commit()  # Commit transaction before enqueueing (v13 compatibility)
             frappe.enqueue(
                 method = generate_branch_documentation,
                 is_async = True,
-                job_name="Generate Branch Documentation",
-                enqueue_after_commit = True,
-                at_front = True,
-                queue="long",
                 project_branch = self.name
             )            
 

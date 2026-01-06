@@ -56,10 +56,34 @@ def get_erd_schema_for_doctypes(project_branch: list, doctypes):
     return schema
 
 @frappe.whitelist()
-def get_meta_erd_schema_for_doctypes(doctypes:list):
+def get_meta_erd_schema_for_doctypes(doctypes):
     '''
     Get ERD schema for a list of doctypes
     '''
+    # Debug logging
+    print(f"DEBUG: doctypes received = {doctypes}, type = {type(doctypes)}")
+    print(f"DEBUG: form_dict = {frappe.form_dict}")
+
+    # Handle different input formats from frontend
+    if doctypes is None:
+        doctypes = []
+    elif isinstance(doctypes, str):
+        if not doctypes:
+            doctypes = []
+        else:
+            try:
+                doctypes = json.loads(doctypes)
+            except json.JSONDecodeError:
+                # If not valid JSON, treat as single doctype name
+                doctypes = [doctypes]
+    elif not isinstance(doctypes, list):
+        doctypes = [doctypes]
+
+    print(f"DEBUG: doctypes after parsing = {doctypes}")
+
+    if not doctypes:
+        return {'tables': [], 'relationships': []}
+
     doctype_jsons = []
     for doctype in doctypes:
         doctype_json = frappe.get_meta(doctype)

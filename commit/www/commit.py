@@ -30,7 +30,7 @@ def get_boot():
     except Exception as e:
         raise frappe.SessionBootFailed from e
     
-    commit_settings = frappe.get_single("Commit Settings")
+    commit_settings = frappe.get_doc("Commit Settings", "Commit Settings")
 
     show_system_apps = commit_settings.show_system_apps
 

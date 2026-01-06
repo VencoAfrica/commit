@@ -23,7 +23,7 @@ export const ERDForMetaDoctypes = ({ doctypes, setDocTypes, flowRef }: Props) =>
 
     useEffect(() => {
         call({
-            doctypes: doctypes
+            doctypes: JSON.stringify(doctypes)
         }).then(res => {
             setData(res.message)
         }).catch(err => {

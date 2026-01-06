@@ -1,3 +1,4 @@
+from typing import Optional
 import frappe
 import requests
 
@@ -53,7 +54,7 @@ def get_all_files_in_repo(access_token:str, organization:str, repo:str, path:str
     return response.json()
 
 
-def search_for_file_in_repo(access_token:str, organization:str, repo:str, query:str | None =None, extension: str | None=None, page:int=1, per_page:int=100, accept=None):
+def search_for_file_in_repo(access_token:str, organization:str, repo:str, query: Optional[str] = None, extension: Optional[str] = None, page:int=1, per_page:int=100, accept=None):
     '''
     Search for a file in a repository from Github
     query examples:

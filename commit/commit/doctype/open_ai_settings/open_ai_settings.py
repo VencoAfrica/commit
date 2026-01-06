@@ -12,7 +12,7 @@ class OpenAISettings(Document):
 
 def open_ai_call(message):
     # 1. Get the organization ID and API key from Open API Settings
-    open_ai = frappe.get_single("Open AI Settings")
+    open_ai = frappe.get_doc("Open AI Settings", "Open AI Settings")
     org_id = open_ai.organization
     api_key = open_ai.get_password('api_key')
 
