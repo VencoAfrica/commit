@@ -9,19 +9,26 @@ def search_link(
 	query=None,
 	filters=None,
 	page_length=20,
-    start=0,
+	start=0,
 	searchfield=None,
 	reference_doctype=None,
 	ignore_user_permissions=False,
 ):
-	results = search_widget(
+	search_widget(
 		doctype,
 		txt.strip(),
 		query,
 		searchfield=searchfield,
+		start=start,
 		page_length=page_length,
 		filters=filters,
 		reference_doctype=reference_doctype,
 		ignore_user_permissions=ignore_user_permissions,
 	)
-	return build_for_autosuggest(results, doctype=doctype)
+
+	# Handle case where values might not be set
+	values = frappe.response.get("values", [])
+	if "values" in frappe.response:
+		del frappe.response["values"]
+
+	return build_for_autosuggest(values)

@@ -50,12 +50,12 @@
   },
   {
    "fieldname": "navbar_tab",
-   "fieldtype": "Tab Break",
+   "fieldtype": "Section Break",
    "label": "Navbar"
   },
   {
    "fieldname": "footer_tab",
-   "fieldtype": "Tab Break",
+   "fieldtype": "Section Break",
    "label": "Footer"
   },
   {

@@ -67,7 +67,7 @@
   },
   {
    "fieldname": "modules_and_doctypes_tab",
-   "fieldtype": "Tab Break",
+   "fieldtype": "Section Break",
    "label": "Modules and Doctypes"
   },
   {
@@ -78,12 +78,12 @@
   },
   {
    "fieldname": "apis_tab",
-   "fieldtype": "Tab Break",
+   "fieldtype": "Section Break",
    "label": "APIs"
   },
   {
    "fieldname": "whitelisted_apis",
-   "fieldtype": "JSON",
+   "fieldtype": "Long Text",
    "label": "Whitelisted APIs"
   },
   {
@@ -95,12 +95,12 @@
   },
   {
    "fieldname": "module_doctypes_map",
-   "fieldtype": "JSON",
+   "fieldtype": "Long Text",
    "label": "Module - Doctypes Map"
   },
   {
    "fieldname": "doctype_module_map",
-   "fieldtype": "JSON",
+   "fieldtype": "Long Text",
    "label": "Doctype - Module Map"
   },
   {
@@ -111,7 +111,7 @@
   },
   {
     "fieldname": "documentation",
-    "fieldtype": "JSON",
+    "fieldtype": "Long Text",
     "label": "Documentation"
   }
  ],
