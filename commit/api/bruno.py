@@ -1,6 +1,7 @@
 import frappe
 
-@frappe.whitelist(allow_guest=True)
+# SECURITY: API CHANGE [M-24] — Removed allow_guest=True. DocType schemas and API structure must not be enumerable by unauthenticated callers.
+@frappe.whitelist()
 def generate_bruno_file(data, return_type='download'):
     request_data = frappe.parse_json(data)
     """

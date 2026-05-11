@@ -97,6 +97,9 @@ def get_all_commit_docs_detail():
 	return commit_docs_obj
 
 
+# SECURITY: M-25 — Uniform error response to prevent route enumeration via error message delta.
+# Regardless of whether the route exists or is simply unpublished, unauthenticated callers
+# receive the same generic message so internal route structure cannot be inferred.
 @frappe.whitelist(allow_guest=True)
 def get_commit_docs_details(route:str,show_hidden_items:bool=False):
 	'''
@@ -117,7 +120,9 @@ def get_commit_docs_details(route:str,show_hidden_items:bool=False):
 
 				return parse_commit_docs(commit_docs)
 			else:
-				return frappe.throw('Docs Not Published')
+				# SECURITY: M-25 — Do not reveal that the route exists but is unpublished.
+				# Return the same generic error as the "not found" case.
+				return frappe.throw('Docs Not Found')
 		else:
 			commit_docs = frappe.get_doc('Commit Docs',{'route':route}).as_dict()
 

@@ -4,7 +4,8 @@ import os
 from commit.commit.code_analysis.apis import find_all_occurrences_of_whitelist
 
 
-@frappe.whitelist(allow_guest=True)
+# SECURITY: API CHANGE [M-24] — Removed allow_guest=True. DocType schemas and API structure must not be enumerable by unauthenticated callers.
+@frappe.whitelist()
 def get_apis_for_project(project_branch: str):
     '''
         Gets the Project Branch document with the organization and app name
@@ -50,7 +51,8 @@ def get_apis_for_project(project_branch: str):
     }
 
 
-@frappe.whitelist(allow_guest=True)
+# SECURITY: API CHANGE [M-24] — Removed allow_guest=True. DocType schemas and API structure must not be enumerable by unauthenticated callers.
+@frappe.whitelist()
 def get_file_content_from_path(project_branch: str, file_path: str, block_start, block_end, viewer_type: str):
     '''
         Gets the Project Branch document with the organization and app name
