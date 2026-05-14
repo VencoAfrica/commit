@@ -5,7 +5,8 @@ import os
 import frappe
 from frappe.utils.bench_helper import get_app_commands
 
-@frappe.whitelist(allow_guest=True)
+# SECURITY: API CHANGE [M-24] — Removed allow_guest=True. DocType schemas and API structure must not be enumerable by unauthenticated callers.
+@frappe.whitelist()
 def get_project_app_commands(app: str, app_path: str = None) -> dict:
     '''
         Gets the commands for the app

@@ -219,12 +219,13 @@ def background_fetch_process(project_branch):
         # throw the error and delete the document
         messages = [json.dumps({'message' :'There was an error while fetching branch repo.'})]
         frappe.clear_messages()
+        # SECURITY FIX [SS-M-07]: log traceback server-side only; do not leak to client via realtime.
+        frappe.log_error(frappe.get_traceback(), "commit_branch_creation_error")
         frappe.publish_realtime('commit_branch_creation_error',
             {
                 'branch_name': doc.branch_name,
                 'project': doc.project,
                 'error':{
-						"exception": frappe.get_traceback(),
 						"_server_messages": json.dumps(messages),
 						},
                 # 'response': handle_exception(e),

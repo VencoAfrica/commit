@@ -1,7 +1,8 @@
 import frappe
 
 
-@frappe.whitelist(allow_guest=True)
+# SECURITY: API CHANGE [M-24] — Removed allow_guest=True. DocType schemas and API structure must not be enumerable by unauthenticated callers.
+@frappe.whitelist()
 def get_project_list_with_branches():
     """
     Get list of projects with branches for each organization

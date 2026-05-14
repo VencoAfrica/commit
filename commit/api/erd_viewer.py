@@ -3,7 +3,8 @@ from commit.commit.code_analysis.schema_builder import get_schema_from_doctypes_
 import json
 
 
-@frappe.whitelist(allow_guest=True)
+# SECURITY: API CHANGE [M-24] — Removed allow_guest=True. DocType schemas and API structure must not be enumerable by unauthenticated callers.
+@frappe.whitelist()
 def get_doctype_json(project_branch: str, doctype: str):
     '''
     Get doctype json from a project branch
@@ -14,7 +15,8 @@ def get_doctype_json(project_branch: str, doctype: str):
     return doctype_json
 
 
-@frappe.whitelist(allow_guest=True)
+# SECURITY: API CHANGE [M-24] — Removed allow_guest=True. DocType schemas and API structure must not be enumerable by unauthenticated callers.
+@frappe.whitelist()
 def get_erd_schema_for_module(project_branch: str, module: str):
     '''
     Get ERD schema for a module
@@ -28,7 +30,8 @@ def get_erd_schema_for_module(project_branch: str, module: str):
     return schema
 
 
-@frappe.whitelist(allow_guest=True)
+# SECURITY: API CHANGE [M-24] — Removed allow_guest=True. DocType schemas and API structure must not be enumerable by unauthenticated callers.
+@frappe.whitelist()
 def get_erd_schema_for_doctypes(project_branch: list, doctypes):
     doctypes = json.loads(doctypes)
     branch_doctypes = {}
