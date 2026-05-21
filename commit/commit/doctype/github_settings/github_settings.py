@@ -15,9 +15,18 @@ session = requests.Session()
 session.headers.update({'Accept': 'application/json'})
 
 
-@frappe.whitelist(allow_guest=True)
+@frappe.whitelist()
 def authenticate_user(code, state=None):
     '''API to authenticate the user with GitHub'''
+    # Validate state parameter to prevent CSRF attacks
+    if not state:
+        frappe.throw("Missing state parameter", frappe.AuthenticationError)
+    expected_state = frappe.cache().get_value(f"github_oauth_state:{frappe.session.user}")
+    if not expected_state or state != expected_state:
+        frappe.throw("Invalid state parameter", frappe.AuthenticationError)
+    # Clear the used state to prevent replay attacks
+    frappe.cache().delete_value(f"github_oauth_state:{frappe.session.user}")
+
     response = get_access_token(code)
     if response:
         user_data = get_user_details(response.get('access_token'))
@@ -78,6 +87,9 @@ def create_user(user_data):
     user.new_password = frappe.generate_hash()
     user.enabled = 1
     user.user_type = 'Website User'
-    user.insert(ignore_permissions=True)
+    # Check if signup is enabled before creating users
+    if frappe.utils.cint(frappe.db.get_single_value("Website Settings", "disable_signup")):
+        frappe.throw("User signup is disabled", frappe.PermissionError)
+    user.insert()
     frappe.db.commit()
     return user
